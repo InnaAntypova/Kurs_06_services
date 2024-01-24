@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_apscheduler',
+
     'mail_sender',
 ]
 
@@ -148,3 +150,7 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
+
+# Apscheduler
+# Максимальное время выполнения для заданий
+APSCHEDULER_RUN_NOW_TIMEOUT = 25
