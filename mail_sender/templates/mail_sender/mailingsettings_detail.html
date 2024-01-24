@@ -1,0 +1,28 @@
+{% extends 'mail_sender/base.html' %}
+
+{% block content %}
+
+    <div class="row row-cols-1 row-cols-md-2 mb-3 text-center">
+        <div class="col-md-6">
+            <div class="col">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>{{ object.email }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ object.start_time }} - {{ object.stop_time }}</p>
+                        <p class="card-text">{{ object.periodicity }}</p>
+                        <p class="card-text">{{ object.status }}</p>
+                    </div>
+{#                    <div class="col mb-3 md-3">#}
+{#                        <a href="{% url 'mail_sender:client_update' object.pk %}"#}
+{#                           class="btn btn-outline-info">Редактировать</a>#}
+{#                        <a href="{% url 'mail_sender:client_delete' object.pk %}"#}
+{#                           class="btn btn-outline-danger">Удалить</a>#}
+{#                    </div>#}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

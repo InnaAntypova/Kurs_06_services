@@ -1,0 +1,35 @@
+{% extends 'mail_sender/base.html' %}
+
+{% block content %}
+    <div class="d-grid gap-2 d-md-flex mb-4 justify-content-md-end">
+     <a href="{% url 'mail_sender:index' %}" class="btn btn-primary ">Главная</a>
+    <a href="{% url 'mail_sender:mails_create' %}" class="btn btn-primary ">Создать рассылку</a>
+    </div>
+
+    {% for object in object_list %}
+            <div class="table">
+                <table class="table text-center">
+                    <thead>
+                    <tr>
+                        <th style="width: 34%;">Email</th>
+                        <th style="width: 22%;">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            {{ object.email }}
+                        </td>
+                        <td>
+                            {{ object.status }}
+                        </td>
+                        <td>
+                            <a href="{% url 'mail_sender:mails_detail' object.pk %}"
+                           type="button" class="w-100 btn btn-lg btn-outline-primary">Подробнее</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+{% endblock %}
