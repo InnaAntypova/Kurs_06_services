@@ -1,16 +1,20 @@
 {% extends 'mail_sender/base.html' %}
+{% load crispy_forms_filters %}
 
 {% block content %}
-
-    <form method="post">
+    <div class="col-8">
+        <form method="post">
             {% csrf_token %}
-            <div class="row-cols-2 align-items-center">
-                <div class="container-fluid ">
-                    {{ form.as_p }}
+            <div class="row text-center">
+                <H3> Форма для добавления нового клиента в базу данных</H3>
+            </div>
+            <div class="row-cols-3 ">
+                <div class="container-fluid align-content-start">
+                    {{ form | crispy }}
                     <button type="submit" class="btn btn-primary">Сохранить</button>
-                    <a href="{% url 'mail_sender:client_list' %}" class="btn btn-danger ">Отмена</a>
+                    <a href="{% url 'mail_sender:personal_area' %}" class="btn btn-danger ">Отмена</a>
                 </div>
             </div>
         </form>
-
+    </div>
 {% endblock %}
