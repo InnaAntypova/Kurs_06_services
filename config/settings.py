@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_apscheduler',
+    'crispy_forms',
+    'crispy_bootstrap5',
 
     'mail_sender',
 ]
@@ -154,3 +156,7 @@ SERVER_EMAIL = EMAIL_HOST_USER
 # Apscheduler
 # Максимальное время выполнения для заданий
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
+
+# Crispy
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
