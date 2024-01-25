@@ -69,3 +69,7 @@ class MailingSettingsUpdateView(UpdateView):
 class MailingSettingsDeleteView(DeleteView):
     model = MailingSettings
     success_url = reverse_lazy('mail_sender:mails_list')
+
+
+class PersonalAreaView(TemplateView):
+    template_name = 'mail_sender/personal_area.html'
