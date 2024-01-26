@@ -1,25 +1,28 @@
-{% extends 'mail_sender/base.html' %}
+{{% extends 'mail_sender/base.html' %}
 
 {% block content %}
 
-    <div class="row row-cols-1 row-cols-md-2 mb-3 text-center">
+    <div class="row row-cols-1 row-cols-md-2 mb-3 ">
         <div class="col-md-6">
             <div class="col">
                 <div class="card mb-4">
-                    <div class="card-header">
-                        <h5>{{ object.email }}</h5>
+                    <div class="card-header text-center">
+                        <h5><strong>Название:</strong> {{ object.name }}</h5>
                     </div>
                     <div class="card-body">
-                        <p class="card-text">{{ object.start_time }} - {{ object.stop_time }}</p>
-                        <p class="card-text">{{ object.periodicity }}</p>
-                        <p class="card-text">{{ object.status }}</p>
+                        <p class="card-text"><b>Время начала / окончания рассылки:</b><br>
+                            {{ object.start_time }} / {{ object.stop_time }}</p>
+                        <p class="card-text"><b>Периодичность:</b> {{ object.periodicity }}</p>
+                        <p class="card-text"><b>Статус:</b> {{ object.status }}</p>
+                        <p class="card-text"><b>Текст сообщения:</b><br> {{ object.message.body }}</p>
+                        <p class="card-text"><b>Клиенты:</b><br> {{ object.client }}</p>
                     </div>
-{#                    <div class="col mb-3 md-3">#}
-{#                        <a href="{% url 'mail_sender:client_update' object.pk %}"#}
-{#                           class="btn btn-outline-info">Редактировать</a>#}
-{#                        <a href="{% url 'mail_sender:client_delete' object.pk %}"#}
-{#                           class="btn btn-outline-danger">Удалить</a>#}
-{#                    </div>#}
+                    <div class="col mb-3 md-3 text-center">
+                        <a href="{% url 'mail_sender:mails_edit' object.pk %}"
+                           class="btn btn-outline-info">Редактировать</a>
+                        <a href="{% url 'mail_sender:mails_delete' object.pk %}"
+                           class="btn btn-outline-danger">Удалить</a>
+                    </div>
                 </div>
             </div>
         </div>
