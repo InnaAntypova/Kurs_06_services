@@ -1,0 +1,27 @@
+{{% extends 'mail_sender/base.html' %}
+
+{% block content %}
+
+    <div class="row row-cols-1 row-cols-md-2 mb-3 ">
+        <div class="col-md-6">
+            <div class="col">
+                <div class="card mb-4">
+                    <div class="card-header text-center">
+                        <h5><strong>Тема сообщения:</strong> {{ object.title }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><b>Текст сообщения:</b><br>
+                            {{ object.body }}</p>
+                    </div>
+                    <div class="col mb-3 md-3 text-center">
+                        <a href="{% url 'mail_sender:update_message' object.pk %}"
+                           class="btn btn-outline-info">Редактировать</a>
+                        <a href="{% url 'mail_sender:delete_message' object.pk %}"
+                           class="btn btn-outline-danger">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-{{% extends 'mail_sender/base.html' %}
+{% extends 'mail_sender/base.html' %}
 
 {% block content %}
 
@@ -15,7 +15,10 @@
                         <p class="card-text"><b>Периодичность:</b> {{ object.periodicity }}</p>
                         <p class="card-text"><b>Статус:</b> {{ object.status }}</p>
                         <p class="card-text"><b>Текст сообщения:</b><br> {{ object.message.body }}</p>
-                        <p class="card-text"><b>Клиенты:</b><br> {{ object.client }}</p>
+                        <p class="card-text"><b>Клиенты:</b><br>
+                            {% for client in clients %}
+                                {{ client.email }} - {{ client.full_name }}<br>
+                            {% endfor %}</p>
                     </div>
                     <div class="col mb-3 md-3 text-center">
                         <a href="{% url 'mail_sender:mails_edit' object.pk %}"

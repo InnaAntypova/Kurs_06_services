@@ -4,11 +4,9 @@
 {% block content %}
 
     <div class="col-12 ">
-
         <div class="row text-center">
-            <H3>Для создания почтовой рассылки сначала заполните текст сообщения. </H3>
+            <H3> Создайте письмо для рассылки.</H3>
         </div>
-
         <form class="row" method="post">
             {% csrf_token %}
             <div class="col-5 my-5">
@@ -16,7 +14,7 @@
                     <div class="container-fluid ">
                         {{ form | crispy }}
                         <button type="submit" class="btn btn-primary">Сохранить</button>
-                        <a href="{% url 'mail_sender:mails_list' %}" class="btn btn-danger ">Отмена</a>
+                        <a href="{% url 'mail_sender:list_messages' %}" class="btn btn-danger ">Отмена</a>
                     </div>
                 </div>
             </div>

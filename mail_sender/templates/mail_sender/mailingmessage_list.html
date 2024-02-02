@@ -1,0 +1,38 @@
+{% extends 'mail_sender/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 my-5">
+            <a href="{% url 'mail_sender:create_message' %}" class="btn btn-outline-primary ">Добавить сообщение</a>
+        </div>
+    </div>
+    <div class="table">
+        <table class="table text-center">
+            <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Тема сообщения</th>
+                <th scope="col">Текст сообщения</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>
+                        {{ object.title }}
+                    </td>
+                    <td>
+                        {{ object.body | truncatewords:10 }}
+                    </td>
+                    <td>
+                        <a href="{% url 'mail_sender:detail_message' object.pk %}">Подробнее</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

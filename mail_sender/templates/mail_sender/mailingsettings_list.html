@@ -1,7 +1,12 @@
 {% extends 'mail_sender/base.html' %}
 
 {% block content %}
-
+    <div class="row">
+        <div class="col-12 my-5">
+            <a href="{% url 'mail_sender:mails_create' %}" class="btn btn-outline-primary ">Добавить рассылку</a>
+            <a href="{% url 'mail_sender:logs' %}" class="btn btn-outline-primary ">Логи рассылок</a>
+        </div>
+    </div>
     <div class="table">
         <table class="table text-center">
             <thead>
@@ -10,6 +15,7 @@
                 <th scope="col">Название</th>
                 <th scope="col">Время старта</th>
                 <th scope="col">Время окончания</th>
+                <th scope="col">Периодичность</th>
                 <th scope="col">Статус</th>
                 <th scope="col"></th>
             </tr>
@@ -28,15 +34,18 @@
                         {{ object.stop_time }}
                     </td>
                     <td>
+                        {{ object.periodicity }}
+                    </td>
+                    <td>
                         {{ object.status }}
                     </td>
                     <td>
                         <a href="{% url 'mail_sender:mails_detail' object.pk %}">Подробнее</a>
                     </td>
                 </tr>
-                {% endfor %}
-                </tbody>
-                </table>
-                </div>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

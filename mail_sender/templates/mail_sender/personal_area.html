@@ -3,10 +3,45 @@
 {% block content %}
 
     <div class="d-grid gap-2 d-md-flex mb-4 justify-content-md-end">
-        <a href="{% url 'mail_sender:create_client' %}" class="btn btn-outline-primary ">Добавить клиента</a>
-        <a href="{% url 'mail_sender:client_list' %}" class="btn btn-outline-primary ">Мои клиенты</a>
-        <a href="{% url 'mail_sender:create_message' %}" class="btn btn-outline-secondary ">Создать новую рассылку</a>
-        <a href="{% url 'mail_sender:mails_list' %}" class="btn btn-outline-secondary ">Мои рассылки</a>
+        {% if user.is_authenticated %}
+            {% for group in request.user.groups.all %}
+                {% if group.name == 'Moderator' %}
+                    <a href="{% url 'users:all_user' %}" class="btn btn-outline-secondary ">Пользователи</a>
+                    <a href="{% url 'mail_sender:mails_list' %}" class="btn btn-outline-secondary ">Все рассылки</a>
+                {% else %}
+                    <a href="{% url 'mail_sender:create_client' %}" class="btn btn-outline-primary ">Добавить
+                        клиента</a>
+                    <a href="{% url 'mail_sender:client_list' %}" class="btn btn-outline-primary ">Мои клиенты</a>
+                    <a href="{% url 'mail_sender:create_message' %}" class="btn btn-outline-primary ">Создать сообщение
+                        для
+                        рассылки</a>
+                    <a href="{% url 'mail_sender:list_messages' %}" class="btn btn-outline-primary ">Мои сообщения</a>
+                    <a href="{% url 'mail_sender:mails_create' %}" class="btn btn-outline-secondary ">Создать
+                        рассылку</a>
+                    <a href="{% url 'mail_sender:mails_list' %}" class="btn btn-outline-secondary ">Мои рассылки</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if request.user.is_superuser %}
+                <a href="{% url 'users:all_user' %}" class="btn btn-outline-secondary ">Пользователи</a>
+                <a href="{% url 'mail_sender:create_client' %}" class="btn btn-outline-primary ">Добавить
+                    клиента</a>
+                <a href="{% url 'mail_sender:client_list' %}" class="btn btn-outline-primary ">Мои клиенты</a>
+                <a href="{% url 'mail_sender:create_message' %}" class="btn btn-outline-primary ">Создать сообщение
+                    для
+                    рассылки</a>
+                <a href="{% url 'mail_sender:list_messages' %}" class="btn btn-outline-primary ">Мои сообщения</a>
+                <a href="{% url 'mail_sender:mails_create' %}" class="btn btn-outline-secondary ">Создать
+                    рассылку</a>
+                <a href="{% url 'mail_sender:mails_list' %}" class="btn btn-outline-secondary ">Все рассылки</a>
+            {% endif %}
+
+        {% endif %}
     </div>
 
+    <div class="row my-5">
+        <h1>Инструкция по использованию сервиса:<br>
+        создайте один или несколько клиентов,<br> создайте сообщение для рассылки,<br>
+        заполните настройки для рассылки.</h1>
+    </div>
 {% endblock %}

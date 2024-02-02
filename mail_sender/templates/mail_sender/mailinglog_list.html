@@ -1,0 +1,38 @@
+{% extends 'mail_sender/base.html' %}
+
+{% block content %}
+
+    <div class="table">
+        <table class="table text-center">
+            <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Название</th>
+                <th scope="col">Время последней попытки</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Ответ от сервера</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>
+                        {{ object.mailing_name.name }}
+                    </td>
+                    <td>
+                        {{ object.last_try }}
+                    </td>
+                    <td>
+                        {{ object.status }}
+                    </td>
+                    <td>
+                        {{ object.response }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
