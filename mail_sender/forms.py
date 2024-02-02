@@ -8,6 +8,7 @@ from mail_sender.models import Client, MailingSettings, MailingMessage
 
 class CrispyFormMixin(forms.Form):
     """ Миксин для оформления форм в стиле crispy. """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -15,26 +16,36 @@ class CrispyFormMixin(forms.Form):
         self.helper.form_class = 'blueForms'
         self.helper.form_method = 'post'
         self.helper.form_action = 'submit_survey'
-
         self.helper.add_input(Submit('submit', 'Submit'))
 
 
 class ClientForm(CrispyFormMixin, forms.ModelForm):
     """ Форма для Client. """
+
     class Meta:
         model = Client
-        fields = '__all__'
+        fields = ['email', 'full_name', 'comment']
 
 
 class MailingSettingsForm(CrispyFormMixin, forms.ModelForm):
     """ Форма для MailingSettings. """
+
     class Meta:
         model = MailingSettings
-        fields = '__all__'
+        exclude = ['owners', 'is_active']
 
 
 class MailingMessageForm(CrispyFormMixin, forms.ModelForm):
     """ Форма для MailingMessage. """
+
     class Meta:
         model = MailingMessage
-        fields = '__all__'
+        fields = ['title', 'body']
+
+
+class ModeratorMailingSettingsForm(CrispyFormMixin, forms.ModelForm):
+    """ Форма для управления рассылками для Модератора """
+
+    class Meta:
+        model = MailingSettings
+        fields = ['is_active']
