@@ -1,0 +1,25 @@
+{% extends 'mail_sender/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+    <div class="col-12 ">
+        <div class="row text-center">
+            <H3> Редактирование пользователя.</H3>
+        </div>
+        <form class="row" method="post">
+            {% csrf_token %}
+            <div class="col-5 my-5">
+                <div class="row-cols-2 align-items-center">
+                    <div class="container-fluid ">
+                        {{ form | crispy }}
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <a href="{% url 'users:all_user' %}" class="btn btn-danger ">Отмена</a>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+{% endblock %}

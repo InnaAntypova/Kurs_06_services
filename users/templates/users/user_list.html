@@ -1,0 +1,34 @@
+{% extends 'mail_sender/base.html' %}
+
+{% block content %}
+
+    <div class="table">
+        <table class="table text-center">
+            <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Email</th>
+                <th scope="col">Признак активности</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>
+                        {{ object.email }}
+                    </td>
+                    <td>
+                        {{ object.is_active }}
+                    </td>
+                    <td>
+                        <a href="{% url 'users:detail_user' object.pk %}">Подробнее</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
