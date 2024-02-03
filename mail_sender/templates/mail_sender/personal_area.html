@@ -21,8 +21,15 @@
                     <a href="{% url 'mail_sender:mails_list' %}" class="btn btn-outline-secondary ">Мои рассылки</a>
                 {% endif %}
             {% endfor %}
+            {% if group.name == 'BlogManager' %}
+                <a href="{% url 'blog:create_article' %}" class="btn btn-outline-secondary ">Добавить статью</a>
+                <a href="{% url 'blog:article_list' %}" class="btn btn-outline-secondary ">Все статьи</a>
+                {% endif %}
+
 
             {% if request.user.is_superuser %}
+                <a href="{% url 'blog:create_article' %}" class="btn btn-outline-secondary ">Добавить статью</a>
+                <a href="{% url 'blog:article_list' %}" class="btn btn-outline-secondary ">Все статьи</a>
                 <a href="{% url 'users:all_user' %}" class="btn btn-outline-secondary ">Пользователи</a>
                 <a href="{% url 'mail_sender:create_client' %}" class="btn btn-outline-primary ">Добавить
                     клиента</a>

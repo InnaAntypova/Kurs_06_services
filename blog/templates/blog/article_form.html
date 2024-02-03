@@ -1,0 +1,28 @@
+{% extends 'mail_sender/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <div class="col-8">
+        <form method="post">
+            {% csrf_token %}
+            <div class="row text-center">
+                <H3> Создание новой статьи.</H3>
+            </div>
+            <div class="row-cols-3 ">
+                <div class="container-fluid align-content-start">
+                    {{ form | crispy }}
+                    {% if perms.blog.add_article or perms.blog.change_article %}
+                        <button type="submit" class="btn btn-primary">
+                            {% if object %}
+                                Изменить
+                            {% else %}
+                                Опубликовать
+                            {% endif %}
+                        </button>
+                    {% endif %}
+                    <a href="{% url 'mail_sender:personal_area' %}" class="btn btn-danger ">Отмена</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

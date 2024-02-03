@@ -1,0 +1,17 @@
+{% extends 'mail_sender/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <div class="col-6">
+{% for object in object_list %}
+        <div class="card" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ object.title }}</h5>
+                <p class="card-text">{{ object.body|truncatewords:15 }}</p>
+                <a href="{% url 'blog:article_detail' %}" class="btn btn-primary">Подробнее</a>
+            </div>
+        </div>
+{% endfor %}
+    </div>
+{% endblock %}

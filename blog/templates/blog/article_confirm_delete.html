@@ -1,0 +1,25 @@
+{% extends 'mail_sender/base.html' %}
+
+{% block content %}
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <p>Вы точно хотите удалить статью {{ object.title }} ?</p>
+                            {% if perms.blog.delete_article %}
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            {% endif %}
+                            <a href="{% url 'blog:article_list' %}"
+                               class="btn btn-dark">Отмена</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
