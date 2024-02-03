@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
 
     'mail_sender',
+    'users',
+    'blog'
 ]
 
 MIDDLEWARE = [
@@ -160,3 +162,9 @@ APSCHEDULER_RUN_NOW_TIMEOUT = 25
 # Crispy
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+# Users
+AUTH_USER_MODEL = 'users.User'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/users/'
