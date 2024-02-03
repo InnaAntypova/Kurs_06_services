@@ -11,7 +11,7 @@ app_name = MailSenderConfig.name
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
-    path('persona_area/', PersonalAreaView.as_view(), name='personal_area'),
+    path('personal_area/', PersonalAreaView.as_view(), name='personal_area'),
     path('clients/', ClientListView.as_view(), name='client_list'),
     path('create_client/', ClientCreateView.as_view(), name='create_client'),
     path('client_detail/<int:pk>', ClientDetailView.as_view(), name='client_detail'),

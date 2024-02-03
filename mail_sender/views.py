@@ -182,7 +182,7 @@ class MailingMessageCreateView(LoginRequiredMixin, PermissionRequiredMixin, Crea
     permission_required = 'mail_sender.add_mailingmessage'
 
     def get_success_url(self):
-        return reverse('mail_sender/personal_area.html')
+        return reverse('mail_sender:personal_area')
 
     def form_valid(self, form):
         if form.is_valid():
