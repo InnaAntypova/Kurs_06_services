@@ -5,10 +5,20 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 
 from blog.forms import ArticleForm
 from blog.models import Article
+from blog.services import get_article_cache
+from config import settings
 
 
 class ArticleListView(ListView):
     model = Article
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        if settings.CACHE_ENABLED:
+            context_data['article_list'] = get_article_cache()
+        else:
+            context_data['article_list'] = Article.objects.all()
+        return context_data
 
 
 class ArticleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):

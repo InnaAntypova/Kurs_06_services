@@ -4,8 +4,11 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
 from blog.models import Article
+from config import settings
 from mail_sender.forms import MailingMessageForm, MailingSettingsForm, ClientForm, ModeratorMailingSettingsForm
 from mail_sender.models import Client, MailingSettings, MailingMessage, MailingLog
+from mail_sender.services import get_client_cache, get_mailingsettings_cache
+
 
 # class FormValidMixin(FormMixin):
 #     def form_valid(self, form):
@@ -43,10 +46,18 @@ class ClientListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Client
     permission_required = 'mail_sender.view_client'
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = queryset.filter(owners=self.request.user)
-        return queryset
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     queryset = queryset.filter(owners=self.request.user)
+    #     return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        if settings.CACHE_ENABLED:
+            context_data['client_list'] = get_client_cache(user=self.request.user)
+        else:
+            context_data['client_list'] = Client.objects.filter(owners=self.request.user)
+        return context_data
 
 
 class ClientCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -109,12 +120,23 @@ class MailingSettingsListView(LoginRequiredMixin, PermissionRequiredMixin, ListV
     model = MailingSettings
     permission_required = 'mail_sender.view_mailingsettings'
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        if self.request.user.groups.filter(name='Moderator').exists() or self.request.user.is_superuser:
-            return queryset.all()
-        queryset = queryset.filter(owners=self.request.user)
-        return queryset
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     if self.request.user.groups.filter(name='Moderator').exists() or self.request.user.is_superuser:
+    #         return queryset.all()
+    #     queryset = queryset.filter(owners=self.request.user)
+    #     return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        if settings.CACHE_ENABLED:
+            context_data['mailingsettings_list'] = get_mailingsettings_cache(user=self.request.user)
+        else:
+            if self.request.user.groups.filter(name='Moderator').exists() or self.request.user.is_superuser:
+                context_data['mailingsettings_list'] = MailingSettings.objects.all()
+            else:
+                context_data['mailingsettings_list'] = MailingSettings.objects.filter(owners=self.request.user)
+        return context_data
 
 
 class MailingSettingsDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):

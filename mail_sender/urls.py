@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from mail_sender.apps import MailSenderConfig
 from mail_sender.views import IndexView, ClientListView, ClientCreateView, ClientDetailView, ClientUpdateView, \
@@ -10,7 +11,7 @@ from mail_sender.views import IndexView, ClientListView, ClientCreateView, Clien
 app_name = MailSenderConfig.name
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
+    path('', cache_page(60)(IndexView.as_view()), name='index'),
     path('personal_area/', PersonalAreaView.as_view(), name='personal_area'),
     path('clients/', ClientListView.as_view(), name='client_list'),
     path('create_client/', ClientCreateView.as_view(), name='create_client'),
