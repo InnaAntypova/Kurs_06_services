@@ -4,7 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 from mail_sender.models import Client, MailingSettings, MailingMessage
-
+from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
 class CrispyFormMixin(forms.Form):
     """ Миксин для оформления форм в стиле crispy. """
@@ -33,6 +33,10 @@ class MailingSettingsForm(CrispyFormMixin, forms.ModelForm):
     class Meta:
         model = MailingSettings
         exclude = ['owners', 'is_active']
+        widgets = {
+            'start_time': DateTimePickerInput(),
+            'stop_time': DateTimePickerInput()
+        }
 
 
 class MailingMessageForm(CrispyFormMixin, forms.ModelForm):

@@ -3,9 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DetailView, DeleteView
 
+from blog.models import Article
 from mail_sender.forms import MailingMessageForm, MailingSettingsForm, ClientForm, ModeratorMailingSettingsForm
 from mail_sender.models import Client, MailingSettings, MailingMessage, MailingLog
-
 
 # class FormValidMixin(FormMixin):
 #     def form_valid(self, form):
@@ -28,6 +28,14 @@ from mail_sender.models import Client, MailingSettings, MailingMessage, MailingL
 class IndexView(TemplateView):
     """ Контроллер для главной страницы """
     template_name = 'mail_sender/index.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['count_mailing'] = MailingSettings.objects.count()  # кол-во рассылок
+        context_data['active_mailing'] = MailingSettings.objects.filter(is_active=True).count()  # кол-во активных рассылок
+        context_data['uniqe_clients'] = Client.objects.distinct().count()  # кол-во уникальных клиентов
+        context_data['blog_content'] = Article.objects.all().order_by('?')[:3]  # случайные статьи из блога
+        return context_data
 
 
 class ClientListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):

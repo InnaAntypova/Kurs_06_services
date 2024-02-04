@@ -9,7 +9,7 @@ NULLABLE = {'null': True, 'blank': True}
 class Client(models.Model):
     """ Модель для сущности Клиент"""
 
-    email = models.EmailField(unique=True, verbose_name='Email')
+    email = models.EmailField(verbose_name='Email')
     full_name = models.CharField(max_length=150, verbose_name='ФИО')
     comment = models.TextField(verbose_name='Комментарий', **NULLABLE)
 
@@ -88,6 +88,7 @@ class MailingLog(models.Model):
     last_try = models.DateTimeField(verbose_name='Дата и время попытки')
     status = models.CharField(choices=LogStatus.choices, default=LogStatus.UNKNOWN, verbose_name='Статус попытки')
     response = models.CharField(max_length=50, verbose_name='Ответ почтового сервера', **NULLABLE)
+    owners = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Владелец', **NULLABLE)
 
     def __str__(self):
         return f'{self.mailing_name} ({self.last_try}/{self.status})'
