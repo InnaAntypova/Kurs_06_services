@@ -3,23 +3,32 @@
 
 {% block content %}
 
-    <div class="col-12 ">
-        <div class="row text-center">
-            <H3> Редактирование пользователя.</H3>
-        </div>
-        <form class="row" method="post">
-            {% csrf_token %}
-            <div class="col-5 my-5">
-                <div class="row-cols-2 align-items-center">
-                    <div class="container-fluid ">
-                        {{ form | crispy }}
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
-                        <a href="{% url 'users:all_user' %}" class="btn btn-danger ">Отмена</a>
-                    </div>
+    <div class="container px-4 py-4">
+        <div class="row row-cols-3 mb-4">
+            <div class="col-12 ">
+                <div class="row text-center">
+                    <H3> Редактирование пользователя.</H3>
                 </div>
+                <form class="row" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-5 my-5">
+                        <div class="row-cols-1 align-items-center">
+                            <div class="container-fluid ">
+                                {{ form | crispy }}
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <a href="{% url 'users:all_user' %}" class="btn btn-danger ">Отмена</a>
+                                <br>
+                                <hr>
+                                {% if perms.users.delete_user %}
+                                    <a href="{% url 'users:delete_user' object.pk %}" type="submit"
+                                       class="w-75 btn btn-sm btn-outline-dark ">Удалить аккаунт</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-        </form>
+        </div>
     </div>
 
 {% endblock %}

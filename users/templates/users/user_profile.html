@@ -1,0 +1,25 @@
+{% extends 'mail_sender/base.html' %}
+{% load crispy_forms_filters %}
+
+
+{% block content %}
+
+    <div class="container px-4 py-4">
+        <div class="row row-cols-3 mb-4">
+            <div class="card text-center">
+                <div class="card-header">{{ user.email }}</div>
+                <div class="card-body">
+                    {{ user.phone }}
+                    <hr>
+                    <br>
+                    <img src="{{ user.avatar.url }}" class="card-img-top" alt="...">
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'users:profile' %}"
+                       class="btn btn-outline-info">Редактировать</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -3,10 +3,10 @@
 
 
 {% block content %}
-<div class="col-12">
-    <div class="row">
-        <div class="col-2"></div>
-            <div class="col-6">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
                 <div class="card text-center">
                     <div class="card-header"></div>
                     <div class="card-body">
@@ -17,10 +17,10 @@
                         </form>
                         <br>
                         <a href="{% url 'users:password_reset' %}">Забыли пароль?</a>
-                </div>
+                    </div>
                     <div class="card-footer"></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
