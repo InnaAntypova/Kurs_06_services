@@ -1,11 +1,12 @@
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import Group, Permission
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView as BaseLoginView, PasswordResetView, PasswordResetConfirmView
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView, DetailView
 
 from users.forms import RegisterForm, UserForgotPasswordForm, UserSetNewPasswordForm, UserProfileForm, ModeratorForm
 from users.models import User
@@ -56,7 +57,7 @@ class ConfirmVerifyUser(View):
                                   'delete_mailingsettings',
                                   'add_mailingmessage', 'change_mailingmessage', 'view_mailingmessage',
                                   'delete_mailingmessage',
-                                  'view_mailinglog']
+                                  'view_mailinglog', 'change_user', 'delete_user']
                 )
                 users_group.permissions.set(permissions)
             user.groups.add(users_group)
@@ -85,14 +86,30 @@ class UserPasswordResetConfirmView(PasswordResetConfirmView):
     success_message = 'Пароль успешно изменен. Можете авторизоваться на сайте.'
 
 
-class UserProfileView(LoginRequiredMixin, UpdateView):
+class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     """ Контроллер для Профиля пользователя """
     model = User
-    success_url = reverse_lazy('users:profile')
+    success_url = reverse_lazy('users:profile_user')
     form_class = UserProfileForm
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+@login_required
+def get_user_profile(request):
+    user = User.objects.get(id=request.user.pk)
+    return render(request, 'users/user_profile.html', {"user": user})
+
+
+@login_required
+def delete_self_user(request):
+    """ Функция удаления пользователем своего аккаунта """
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        logout(request)
+        return redirect('mail_sender:index')
 
 
 class ModeratorListView(LoginRequiredMixin, ListView):
@@ -101,8 +118,11 @@ class ModeratorListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.groups.filter(name='Moderator').exists() or self.request.user.is_superuser:
+        if self.request.user.groups.filter(name='Moderator').exists():
+            queryset = queryset.filter(groups__name='Users')
             return queryset
+        if self.request.user.is_superuser:
+            return queryset.all()
 
 
 class ModeratorUpdateUserView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
