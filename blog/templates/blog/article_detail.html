@@ -2,20 +2,31 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-    <div class="col-3">
 
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{ object.title }}</h5>
-                <p class="card-text">{{ object.body }}</p>
 
-            </div>
-            <div class="footer">
-                 <a href="{% url 'blog:article_update' %}" class="btn btn-success">Редактировать</a>
-                <a href="{% url 'blog:article_delete' %}" class="btn btn-danger">Удалить</a>
+    <div class="container px-4">
+        <div class="row row-cols-1 mb-4 gy-3">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img src="{{ object.image.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ object.title }}</h5>
+                        <p class="card-text">{{ object.body }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                {% if perms.blog.change_article %}
+                                    <a href="{% url 'blog:article_update' object.pk %}" type="button"
+                                       class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                                {% endif %}
+                                {% if perms.blog.delete_article %}
+                                    <a href="{% url 'blog:article_delete' object.pk %}" type="button"
+                                       class="btn btn-sm btn-outline-secondary">Удалить</a>
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">Просмотров: {{ object.count_views }}</small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-    </div>
 {% endblock %}
