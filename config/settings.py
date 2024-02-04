@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django_apscheduler',
     'crispy_forms',
     'crispy_bootstrap5',
+    'bootstrap_datepicker_plus',
+    'django_dump_load_utf8',
 
     'mail_sender',
     'users',
