@@ -2,33 +2,42 @@
 
 {% block content %}
 
-    <div class="table">
-        <table class="table text-center">
-            <thead>
-            <tr>
-                <th scope="col">№</th>
-                <th scope="col">Email</th>
-                <th scope="col">ФИО</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for object in object_list %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>
-                        {{ object.email }}
-                    </td>
-                    <td>
-                        {{ object.full_name }}
-                    </td>
-                    <td>
-                        <a href="{% url 'mail_sender:client_detail' object.pk %}">Подробнее</a>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
+    <div class="container px-4 py-4">
+        <div class="row row-cols-3 mb-4">
+            <div class="col-12 my-5">
+                {% if perms.mail_sender.add_client %}
+                    <a href="{% url 'mail_sender:create_client' %}" class="btn btn-outline-primary ">Добавить
+                        клиента</a>
+                {% endif %}
+            </div>
+            <div class="table">
+                <table class="table text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">№</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">ФИО</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for object in object_list %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>
+                                {{ object.email }}
+                            </td>
+                            <td>
+                                {{ object.full_name }}
+                            </td>
+                            <td>
+                                <a href="{% url 'mail_sender:client_detail' object.pk %}">Подробнее</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
                 </table>
-                </div>
-
+            </div>
+        </div>
+    </div>
 {% endblock %}

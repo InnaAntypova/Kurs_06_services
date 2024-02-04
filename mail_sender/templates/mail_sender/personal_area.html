@@ -2,53 +2,128 @@
 
 {% block content %}
 
-    <div class="d-grid gap-2 d-md-flex mb-4 justify-content-md-end">
-        {% if user.is_authenticated %}
-            {% for group in request.user.groups.all %}
-                {% if group.name == 'Moderator' %}
-                    <a href="{% url 'users:all_user' %}" class="btn btn-outline-secondary ">Пользователи</a>
-                    <a href="{% url 'mail_sender:mails_list' %}" class="btn btn-outline-secondary ">Все рассылки</a>
-                {% else %}
-                    <a href="{% url 'mail_sender:create_client' %}" class="btn btn-outline-primary ">Добавить
-                        клиента</a>
-                    <a href="{% url 'mail_sender:client_list' %}" class="btn btn-outline-primary ">Мои клиенты</a>
-                    <a href="{% url 'mail_sender:create_message' %}" class="btn btn-outline-primary ">Создать сообщение
-                        для
-                        рассылки</a>
-                    <a href="{% url 'mail_sender:list_messages' %}" class="btn btn-outline-primary ">Мои сообщения</a>
-                    <a href="{% url 'mail_sender:mails_create' %}" class="btn btn-outline-secondary ">Создать
-                        рассылку</a>
-                    <a href="{% url 'mail_sender:mails_list' %}" class="btn btn-outline-secondary ">Мои рассылки</a>
-                {% endif %}
-            {% endfor %}
-            {% if group.name == 'BlogManager' %}
-                <a href="{% url 'blog:create_article' %}" class="btn btn-outline-secondary ">Добавить статью</a>
-                <a href="{% url 'blog:article_list' %}" class="btn btn-outline-secondary ">Все статьи</a>
-                {% endif %}
 
+    <div class="container px-4 py-4">
+        <div class="row row-cols-3 mb-4">
+            <div class="btn-toolbar mx-3 ite" role="toolbar" aria-label="Панель инструментов с группами кнопок">
+                <div class="btn-group mb-3" role="group" aria-label="Группа кнопок с вложенным раскрывающимся списком">
+                    {% if user.is_authenticated %}
+                        {% for group in request.user.groups.all %}
+                            {% if group.name == 'Moderator' %}
+                                <a href="{% url 'users:all_user' %}" type="button"
+                                   class="btn btn-primary">Пользователи</a>
+                                <a href="{% url 'mail_sender:mails_list' %}" type="button"
+                                   class="btn btn-primary">Рассылки</a>
 
-            {% if request.user.is_superuser %}
-                <a href="{% url 'blog:create_article' %}" class="btn btn-outline-secondary ">Добавить статью</a>
-                <a href="{% url 'blog:article_list' %}" class="btn btn-outline-secondary ">Все статьи</a>
-                <a href="{% url 'users:all_user' %}" class="btn btn-outline-secondary ">Пользователи</a>
-                <a href="{% url 'mail_sender:create_client' %}" class="btn btn-outline-primary ">Добавить
-                    клиента</a>
-                <a href="{% url 'mail_sender:client_list' %}" class="btn btn-outline-primary ">Мои клиенты</a>
-                <a href="{% url 'mail_sender:create_message' %}" class="btn btn-outline-primary ">Создать сообщение
-                    для
-                    рассылки</a>
-                <a href="{% url 'mail_sender:list_messages' %}" class="btn btn-outline-primary ">Мои сообщения</a>
-                <a href="{% url 'mail_sender:mails_create' %}" class="btn btn-outline-secondary ">Создать
-                    рассылку</a>
-                <a href="{% url 'mail_sender:mails_list' %}" class="btn btn-outline-secondary ">Все рассылки</a>
-            {% endif %}
+                                <div class="btn-group" role="group">
+                                    {% elif group.name == 'BlogManager' %}
+                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">Управление Блогом
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{% url 'blog:create_article' %}">Добавить
+                                            статью</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'blog:article_list' %}">Все статьи</a>
+                                        </li>
+                                    </ul>
+                                    {% else %}
+                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">Клиенты
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"
+                                               href="{% url 'mail_sender:create_client' %}">Добавить</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'mail_sender:client_list' %}">Мои
+                                            клиенты</a>
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">Сообщение
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"
+                                               href="{% url 'mail_sender:create_message' %}">Создать</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'mail_sender:list_messages' %}">Мои
+                                            сообщения</a>
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">Рассылки
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"
+                                               href="{% url 'mail_sender:mails_create' %}">Создать</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'mail_sender:mails_list' %}">Мои
+                                            рассылки</a>
+                                        </li>
+                                    </ul>
+                                    <a href="{% url 'mail_sender:logs' %}" type="button"
+                                       class="btn btn-primary">Логи</a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
 
-        {% endif %}
+                        {% if request.user.is_superuser %}
+                            <a href="{% url 'users:all_user' %}" type="button"
+                               class="btn btn-primary">Пользователи</a>
+                            <a href="{% url 'mail_sender:mails_list' %}" type="button"
+                               class="btn btn-primary">Рассылки</a>
+                            <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Управление Блогом
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'blog:create_article' %}">Добавить
+                                    статью</a></li>
+                                <li><a class="dropdown-item" href="{% url 'blog:article_list' %}">Все статьи</a>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Клиенты
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                       href="{% url 'mail_sender:create_client' %}">Добавить</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mail_sender:client_list' %}">Мои
+                                    клиенты</a>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Сообщение
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                       href="{% url 'mail_sender:create_message' %}">Создать</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mail_sender:list_messages' %}">Мои
+                                    сообщения</a>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Рассылки
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                       href="{% url 'mail_sender:mails_create' %}">Создать</a></li>
+                                <li><a class="dropdown-item" href="{% url 'mail_sender:mails_list' %}">Мои
+                                    рассылки</a>
+                                </li>
+                            </ul>
+                            <a href="{% url 'mail_sender:logs' %}" type="button" class="btn btn-primary">Логи</a>
+                        {% endif %}
+
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">Инструкция</h1>
+            <p class="fs-5 text-body-secondary">Используя навигационные кнопки добавьте клиентов, сообщение для рассылки
+                и
+                внесите настройки в планировщике рассылок.</p>
+        </div>
+
     </div>
 
-    <div class="row my-5">
-        <h1>Инструкция по использованию сервиса:<br>
-        создайте один или несколько клиентов,<br> создайте сообщение для рассылки,<br>
-        заполните настройки для рассылки.</h1>
-    </div>
 {% endblock %}

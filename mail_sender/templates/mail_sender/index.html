@@ -2,26 +2,58 @@
 
 {% block content %}
 
-{#    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">#}
-{#        <div class="col">#}
-{#            <div class="card mb-4 rounded-3 shadow-sm">#}
-{#                <div class="card-header py-3">#}
-{#                    <h4 class="my-0 fw-normal">Клиенты</h4>#}
-{#                </div>#}
-{#                <div class="card-body">#}
-{#                    <a href="{% url 'mail_sender:client_list' %}" type="button" class="w-100 btn btn-lg btn-outline-primary">Подробнее...</a>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="col">#}
-{#            <div class="card mb-4 rounded-3 shadow-sm">#}
-{#                <div class="card-header py-3">#}
-{#                    <h4 class="my-0 fw-normal">Рассылки</h4>#}
-{#                </div>#}
-{#                <div class="card-body">#}
-{#                    <a href="{% url 'mail_sender:mails_list' %}" type="button" class="w-100 btn btn-lg btn-outline-primary">Подробнее...</a>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal text-body-emphasis">Mailing</h1>
+        <p class="fs-5 text-body-secondary">Добро пожаловать на наш сервис рассылки массовых сообщений на электронную
+            почту.</p>
+    </div>
+
+    <h2 class="display-6 text-center mb-4">Интересные статьи из блога</h2>
+
+    <div class="container px-4 py-4">
+        <div class="row row-cols-3 mb-4">
+            {% for object in blog_content %}
+                <div class="card mb-4 rounded-3 shadow-sm gx-5" style="width: 18rem;">
+                    <div class="card-header">
+                        <img src="{{ object.image.url }}" class="card-img-top" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ object.title }}</h5>
+                        <p class="card-text">{{ object.body|truncatewords:10 }}</p>
+                        <a href="{% url 'blog:article_detail' object.pk %}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+        <div class="container px-4">
+            <h2 class="display-6 text-center mb-4">Статистика сервиса:</h2>
+
+
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <tbody>
+                    <tr>
+                        <th scope="row" class="text-start">Общее количество рассылок:</th>
+                        <td>{{ count_mailing }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Количество активных рассылок:</th>
+                        <td>{{ active_mailing }}</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <th scope="row" class="text-start">Кол-во уникальных клиентов:</th>
+                        <td>{{ uniqe_clients }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
 
 {% endblock %}

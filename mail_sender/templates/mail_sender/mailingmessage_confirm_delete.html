@@ -10,7 +10,9 @@
                         <form method="post">
                             {% csrf_token %}
                             <p>Вы точно хотите удалить сообщение {{ object.title }} ?</p>
-                            <button type="submit" class="btn btn-danger">Удалить</button>
+                            {% if perms.mail_sender.delete_mailingmessage %}
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            {% endif %}
                             <a href="{% url 'mail_sender:list_messages' %}"
                                class="btn btn-dark">Отмена</a>
                         </form>

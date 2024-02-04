@@ -9,8 +9,10 @@
                     <div class="card-body">
                         <form method="post">
                             {% csrf_token %}
-                            <p>Вы точно хотите удалить рассылку ?</p>
-                            <button type="submit" class="btn btn-danger">Удалить</button>
+                            <p>Вы точно хотите удалить рассылку {{ object.name }}?</p>
+                            {% if perms.mail_sender.delete_mailingsettings %}
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            {% endif %}
                             <a href="{% url 'mail_sender:mails_list' %}"
                                class="btn btn-dark">Отмена</a>
                         </form>
